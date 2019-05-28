@@ -1,0 +1,26 @@
+﻿@model blog.Models.BlogListViewModel
+
+@if (Model.BlogList.Count > 0)
+{
+    foreach (var blog in Model.BlogList.OrderByDescending(x => x.CreateDate))
+    {
+        <!-- Blog Post -->
+        <div class="card mb-4">
+            <img class="card-img-top" src="@blog.ImageUrl" alt="Card image cap">
+            <div class="card-body">
+                <h2 class="card-title">@blog.Title</h2>
+                <p class="card-text">
+                    @Html.Raw(blog.Content)
+                </p>
+                <a href="@Url.Action("Detail", new { blog.Id })" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+                Posted on @blog.CreateDate
+            </div>
+        </div>
+    }
+    <nav>
+        <a class="btn btn-outline-primary" href="#">Older</a>
+        <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+    </nav>
+}

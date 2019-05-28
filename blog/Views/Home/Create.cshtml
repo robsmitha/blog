@@ -1,0 +1,49 @@
+﻿@model blog.Models.BlogCreateViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>
+    Write a blog post
+</h2>
+<form method="post" asp-action="Create" asp-controller="Home" onsubmit="return Post()">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Content)
+    <div class="form-group">
+        @Html.LabelFor(x => x.Title)
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.ImageUrl)
+        @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
+    </div>
+    <textarea id="blog_content"></textarea>
+    <button type="submit" class="btn btn-primary mt-2">Post</button>
+</form>
+<script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=e05gl3nmjh4t5vnwr8f1hrde1o49agwbfwnzoja9c6xj7n2w"></script>
+@section Scripts  {
+    <script>
+    function Post() {
+        let post = tinyMCE.activeEditor.getContent()
+        $('#Content').val(post)
+        return true;
+    }
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste tinycomments tinydrive tinymcespellchecker',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter insertfile pageembed permanentpen',
+        toolbar_drawer: 'floating',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name'
+    });
+    $(function () {
+        if ($(window).width() >= 769) {
+            $('#blog_content').attr('rows', '25')
+        }
+        else {
+            $('#blog_content').attr('rows', '15')
+        }
+    })
+    </script>
+}
+
